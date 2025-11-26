@@ -15,6 +15,7 @@ import AddWorkout from "@/admin/AddWorkout";
 import AdminDashboardHome from "@/admin/AdminHome";
 import DeleteWorkout from "@/admin/DeleteWorkouts";
 import UpdateWorkout from "@/admin/UpdateWorkout";
+import PrivateRoutes from "./PrivateRoute";
 
 const router = createBrowserRouter([
   {
@@ -23,7 +24,7 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <Home /> },
       { path: "exercise", element: <Exercise /> },
-      { path: "progress", element: <Progress /> },
+      { path: "progress", element: <PrivateRoutes><Progress /></PrivateRoutes> },
       { path: "profile", element: <Profile /> },
     ],
   },

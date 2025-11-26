@@ -3,6 +3,7 @@ import { useFetchAllWorkoutsQuery } from "@/redux/workouts";
 import { ChevronRight, Zap, TrendingUp } from "lucide-react";
 import Loading from "@/components/Loading";
 import Stopwatch from "@/components/Stopwatch";
+import PleaseLogin from "@/components/ui/ValidationCard";
 interface workouts {
   _id: string;
   day: {
@@ -58,9 +59,7 @@ const Exercise = () => {
     );
   if (error)
     return (
-      <p className="text-2xl font-bold text-red">
-        Failed to load workouts,Login again
-      </p>
+      <PleaseLogin/>
     );
 
   return (
