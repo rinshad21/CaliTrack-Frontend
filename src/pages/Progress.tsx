@@ -24,6 +24,7 @@ export default function ProgressTracker() {
   const [deleteProgress] = useDeleteProgressMutation();
   const [uploadImage, { isLoading: uploading }] = useUploadImageMutation();
 
+
   const [file, setFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [uploadingPhoto, setUploadingPhoto] = useState(false);
@@ -347,7 +348,8 @@ export default function ProgressTracker() {
                         <img
                           src={p.photoUrl}
                           alt="Progress"
-                          className="w-full h-48 object-cover rounded-lg border border-slate-500 hover:scale-105 transition-transform"
+                          className="w-100 h-80 object-contain rounded-lg border border-slate-500 hover:scale-140 active:scale-140 transition-transform"
+                           
                         />
                       </div>
                     )}

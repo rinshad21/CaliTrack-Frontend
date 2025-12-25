@@ -20,8 +20,9 @@ export const uploadApi = createApi({
     }),
     getImage: builder.query({
         query: (publicId) => `/image/${publicId}`,
-    })
+    }),
   }),
+  
 })
 
-export const { useUploadImageMutation,useGetImageQuery } = uploadApi
+export const { useUploadImageMutation,useGetImageQuery} = uploadApi
