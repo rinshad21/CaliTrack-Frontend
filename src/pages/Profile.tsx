@@ -45,7 +45,7 @@ const Profile = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-3 gap-3">
+      <div className="grid grid-cols-3 gap-4">
         <button
           onClick={() => handleLevelChange("beginner")}
           className={`px-3 py-4 rounded-xl font-semibold transition-all duration-200 text-sm ${
@@ -58,7 +58,7 @@ const Profile = () => {
         </button>
         <button
           onClick={() => handleLevelChange("intermediate")}
-          className={`px-3 py-4 rounded-xl font-semibold transition-all duration-200 text-sm ${
+          className={`px-1 py-1 rounded-xl font-semibold transition-all duration-200 text-sm ${
             UserLevel?.level === "intermediate"
               ? "bg-[#0e9453] text-white shadow-lg shadow-[#0e9453]/30 scale-105"
               : "bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600 border border-gray-200 dark:border-gray-600"

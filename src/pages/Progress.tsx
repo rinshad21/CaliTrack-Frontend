@@ -75,13 +75,13 @@ export default function ProgressTracker() {
 
   try {
     let photoUrl = null;
-
+ let photoPublicId = null;
     
     if (file && imagePreview) {
       setUploadingPhoto(true);
       const uploadResult = await uploadImage(file).unwrap();
       photoUrl = uploadResult.secure_url;
-     
+      photoPublicId = uploadResult.photoPublicId;
       setUploadingPhoto(false);
     }
 
@@ -96,6 +96,7 @@ export default function ProgressTracker() {
    //adding url if user added poto
     if (photoUrl) {
       progressData.photoUrl = photoUrl;
+      progressData.photoPublicId = photoPublicId;
     }
 
     
@@ -348,7 +349,7 @@ export default function ProgressTracker() {
                         <img
                           src={p.photoUrl}
                           alt="Progress"
-                          className="w-100 h-80 object-contain rounded-lg border border-slate-500 hover:scale-140 active:scale-140 transition-transform"
+                          className="w-100% h-80 object-contain rounded-lg border border-slate-500 hover:scale-140 active:scale-140 transition-transform"
                            
                         />
                       </div>
