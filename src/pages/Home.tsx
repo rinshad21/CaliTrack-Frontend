@@ -1,12 +1,16 @@
+import Loading from "@/components/Loading";
 import Banner from "../components/Banner";
-import ContentSection from "../components/ContentSection";
+import { Suspense,lazy } from "react";
 
-
+const ContentSection = lazy(()=> import("../components/ContentSection"))
 function Home() {
   return (
     <>
-      <Banner />
-      <ContentSection />
+       <Banner />
+      <Suspense fallback={<Loading/>}>
+     
+        <ContentSection />
+        </Suspense>
     </>
   );
 }

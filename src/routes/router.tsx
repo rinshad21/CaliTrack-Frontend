@@ -1,66 +1,138 @@
-import { Navigate, createBrowserRouter } from "react-router-dom";
-
+import { createBrowserRouter } from "react-router-dom";
+import { lazy, Suspense } from "react";
 import App from "../App";
-import Home from "../pages/Home";
-import Exercise from "../pages/Exercise";
-import Progress from "../pages/Progress";
-import LoginPage from "@/components/login-01";
-import Register from "@/components/Register";
-import Profile from "@/pages/Profile";
-import AdminLogin from "@/admin/Adminlogin";
-import AdminRoutes from "./AdminRouter";
-import Dashboard from "@/admin/Dashboard";
-import WorkoutLevels from "@/admin/GetAllworkouts";
-import AddWorkout from "@/admin/AddWorkout";
-import AdminDashboardHome from "@/admin/AdminHome";
-import DeleteWorkout from "@/admin/DeleteWorkouts";
-import UpdateWorkout from "@/admin/UpdateWorkout";
+import Loading from "@/components/Loading";
 import PrivateRoutes from "./PrivateRoute";
+import Home from "../pages/Home";
+
+// Lazy load pages (except Home for LCP optimization)
+const Exercise = lazy(() => import("../pages/Exercise"));
+const Progress = lazy(() => import("../pages/Progress"));
+const LoginPage = lazy(() => import("@/components/login-01"));
+const Register = lazy(() => import("@/components/Register"));
+const Profile = lazy(() => import("@/pages/Profile"));
+const AdminLogin = lazy(() => import("@/admin/Adminlogin"));
+const AdminRoutes = lazy(() => import("./AdminRouter"));
+const Dashboard = lazy(() => import("@/admin/Dashboard"));
+const WorkoutLevels = lazy(() => import("@/admin/GetAllworkouts"));
+const AddWorkout = lazy(() => import("@/admin/AddWorkout"));
+const AdminDashboardHome = lazy(() => import("@/admin/AdminHome"));
+const DeleteWorkout = lazy(() => import("@/admin/DeleteWorkouts"));
+const UpdateWorkout = lazy(() => import("@/admin/UpdateWorkout"));
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
     children: [
-      { index: true, element: <Home /> },
-      { path: "exercise", element: <Exercise /> },
-      { path: "progress", element: <PrivateRoutes><Progress /></PrivateRoutes> },
-      { path: "profile", element: <Profile /> },
+      {
+        index: true,
+        element: <Home />,
+      },
+      {
+        path: "exercise",
+        element: (
+          <Suspense fallback={<Loading />}>
+            <Exercise />
+          </Suspense>
+        ),
+      },
+      {
+        path: "progress",
+        element: (
+          <PrivateRoutes>
+            <Suspense fallback={<Loading />}>
+              <Progress />
+            </Suspense>
+          </PrivateRoutes>
+        ),
+      },
+      {
+        path: "profile",
+        element: (
+          <Suspense fallback={<Loading />}>
+            <Profile />
+          </Suspense>
+        ),
+      },
     ],
   },
-  { path: "login", element: <LoginPage /> },
-  { path: "signup", element: <Register /> },
-    { path: "admin", element: <AdminLogin/> },
+  {
+    path: "login",
+    element: (
+      <Suspense fallback={<Loading />}>
+        <LoginPage />
+      </Suspense>
+    ),
+  },
+  {
+    path: "signup",
+    element: (
+      <Suspense fallback={<Loading />}>
+        <Register />
+      </Suspense>
+    ),
+  },
+  {
+    path: "admin",
+    element: (
+      <Suspense fallback={<Loading />}>
+        <AdminLogin />
+      </Suspense>
+    ),
+  },
   {
     path: "/admin-dashboard",
-      element: (
-         <AdminRoutes>
-        <Dashboard/>
-      </AdminRoutes>
+    element: (
+      <Suspense fallback={<Loading />}>
+        <AdminRoutes>
+          <Dashboard />
+        </AdminRoutes>
+      </Suspense>
     ),
     children: [
-      { index: true, element: <AdminDashboardHome /> },
+      {
+        index: true,
+        element: (
+          <Suspense fallback={<Loading />}>
+            <AdminDashboardHome />
+          </Suspense>
+        ),
+      },
       {
         path: "all-workouts",
-        element:<WorkoutLevels/>,
+        element: (
+          <Suspense fallback={<Loading />}>
+            <WorkoutLevels />
+          </Suspense>
+        ),
       },
       {
         path: "add-workouts",
-        element:<AddWorkout/>
-        
+        element: (
+          <Suspense fallback={<Loading />}>
+            <AddWorkout />
+          </Suspense>
+        ),
       },
-       {
+      {
         path: "delete-workouts",
-        element:<DeleteWorkout/>
-        
+        element: (
+          <Suspense fallback={<Loading />}>
+            <DeleteWorkout />
+          </Suspense>
+        ),
       },
-        {
+      {
         path: "update-workouts",
-        element:<UpdateWorkout/>
-        
+        element: (
+          <Suspense fallback={<Loading />}>
+            <UpdateWorkout />
+          </Suspense>
+        ),
       },
-      ]
-  
-  }
+    ],
+  },
 ]);
+
 export default router;

@@ -185,7 +185,7 @@ export default function ProgressTracker() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Form Section */}
           <div className="lg:col-span-1">
-            <div className="bg-gradient-to-br from-slate-700 to-slate-800 rounded-2xl p-8 border border-slate-600 shadow-xl sticky top-6">
+            <div className="bg-linear-to-br from-slate-700 to-slate-800 rounded-2xl p-8 border border-slate-600 shadow-xl sticky top-6">
               <h2 className="text-xl font-bold text-white mb-6">
                 Log Measurement
               </h2>
@@ -320,7 +320,7 @@ export default function ProgressTracker() {
                 data.progress.entries.map((p: any, i: any) => (
                   <div
                     key={i}
-                    className="bg-gradient-to-br from-slate-700 to-slate-800 rounded-xl p-6 border border-slate-600 hover:border-slate-500 transition-all group"
+                    className="bg-linear-to-br from-slate-700 to-slate-800 rounded-xl p-6 border border-slate-600 hover:border-slate-500 transition-all group"
                   >
                     <div className="flex justify-between items-center mb-4">
                       <p className="text-lg font-medium text-white">
@@ -404,7 +404,7 @@ export default function ProgressTracker() {
                   </div>
                 ))
               ) : (
-                <div className="bg-gradient-to-br from-slate-700 to-slate-800 rounded-xl p-12 border border-slate-600 text-center">
+                <div className="bg-linear-to-br from-slate-700 to-slate-800 rounded-xl p-12 border border-slate-600 text-center">
                   <p className="text-slate-400">No progress recorded yet.</p>
                   <p className="text-slate-500 text-sm mt-2">
                     Start by logging your first measurement!

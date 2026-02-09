@@ -15,10 +15,10 @@ const ContentSection = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <Link to="/exercise" className="group cursor-pointer">
-            <div className="absolute inset-0  transition-opacity duration-300" />
+          <Link to="/exercise" className="group cursor-pointer relative">
+            <div className="absolute inset-0  transition-opacity duration-300 rounded-2xl bg-gradient-to-br from-slate-700 to-slate-800 " />
             <div className="relative  rounded-2xl p-8 shadow-xl border border-slate-600 hover:border-amber-400 transition-all duration-300 overflow-hidden h-full">
-              <div className="relative mb-6">
+              <div className="relative mb-6 ">
                 <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
                   <Dumbbell className="w-8 h-8 text-slate-900" />
                 </div>
