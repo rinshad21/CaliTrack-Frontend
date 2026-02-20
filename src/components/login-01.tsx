@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
-import { useState } from "react";
 import { ToastContainer } from "react-toastify";
 import axios from "axios";
 import getBaseurl from "@/utils/getBaseurl";
@@ -33,6 +32,7 @@ export default function LoginPage() {
       if (auth.token) {
         localStorage.setItem("token", auth.token);
         localStorage.setItem("level", auth.level);
+        localStorage.setItem("user", JSON.stringify({ level: auth.level }));
       }
 
       handleSuccess("login successfull");

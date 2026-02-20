@@ -1,16 +1,19 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import getBaseurl from "@/utils/getBaseurl";
+
 interface Workout {
   _id: string;
   day: number;
   exercises: string[];
   level: string;
 }
+
 const baseQuery = fetchBaseQuery({
   baseUrl: `${getBaseurl()}/api/workouts`,
   credentials: "include",
   prepareHeaders: (Headers) => {
-    const token = localStorage.getItem("token");
+    const token =
+      localStorage.getItem("adminToken") || localStorage.getItem("token");
     if (token) {
       Headers.set("Authorization", `Bearer ${token}`);
     }
@@ -29,31 +32,36 @@ const workoutsapi = createApi({
       providesTags: ["workouts"],
     }),
     addWOrkouts: builder.mutation({
-      query: (newWorkout) =>({
+      query: (newWorkout) => ({
         url: `/add-workout`,
         method: "POST",
-        body:newWorkout,
+        body: newWorkout,
       }),
-      invalidatesTags:["workouts"]
+      invalidatesTags: ["workouts"],
     }),
     deleteWorkouts: builder.mutation({
-      query: (id) =>({
+      query: (id) => ({
         url: `/delete/${id}`,
         method: "DELETE",
-    
       }),
-      invalidatesTags:["workouts"]
+      invalidatesTags: ["workouts"],
     }),
     updateWorkouts: builder.mutation({
-      query: ({ id, data}):any => ({
-        url:`/edit/${id}`,
+      query: ({ id, data }): any => ({
+        url: `/edit/${id}`,
         method: "PUT",
-        body:data,
+        body: data,
       }),
-            invalidatesTags:["workouts"]
-    })
+      invalidatesTags: ["workouts"],
+    }),
   }),
-  
 });
-export const { useFetchAllWorkoutsQuery,useDeleteWorkoutsMutation,useAddWOrkoutsMutation,useUpdateWorkoutsMutation } = workoutsapi;
+
+export const {
+  useFetchAllWorkoutsQuery,
+  useDeleteWorkoutsMutation,
+  useAddWOrkoutsMutation,
+  useUpdateWorkoutsMutation,
+} = workoutsapi;
+
 export default workoutsapi;

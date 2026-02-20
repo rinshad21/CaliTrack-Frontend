@@ -1,9 +1,11 @@
 import { Navigate, Outlet } from "react-router-dom";
+import { isTokenValid } from "@/utils/isTokenValid";
 
-const PrivateRoutes = ({ children }:any) => {
-  const token = localStorage.getItem("token");
-  if (!token) {
-    return <Navigate to="/login" />;
+const PrivateRoutes = ({ children }: any) => {
+  if (!isTokenValid()) {
+    localStorage.removeItem("token");
+    localStorage.removeItem("level");
+    return <Navigate to="/login" replace />;
   }
   return children ? children : <Outlet />;
 };

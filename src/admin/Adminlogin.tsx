@@ -31,8 +31,7 @@ export default function AdminLogin() {
       });
       const auth = response.data;
       if (auth.token) {
-        localStorage.setItem("token", auth.token);
-        localStorage.setItem("level", auth.level);
+        localStorage.setItem("adminToken", auth.token);
       }
 
       handleSuccess("login successfull");
@@ -117,7 +116,7 @@ export default function AdminLogin() {
                   Sign in
                 </Button>
               </div>
-         
+
             </form>
           </div>
         </div>

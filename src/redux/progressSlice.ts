@@ -5,46 +5,50 @@ const progressApi = createApi({
   reducerPath: "progressApi",
   baseQuery: fetchBaseQuery({
     baseUrl: `${getBaseurl()}/api/progress`,
-      credentials: "include",
-    
+    credentials: "include",
+
     prepareHeaders: (h) => {
       const token = localStorage.getItem("token");
       if (token) h.set("Authorization", `Bearer ${token}`);
       return h;
     },
   }),
-  tagTypes: ["Progress"],
+  tagTypes: ["Progress", "Profile"],
   endpoints: (builder) => ({
+    getProfile: builder.query<{ username: string; level: string }, void>({
+      query: () => "/profile",
+      providesTags: ["Profile"],
+    }),
     getProgress: builder.query({
-        query: () => "/",
-         providesTags: ["Progress"],
+      query: () => "/",
+      providesTags: ["Progress"],
     }),
     updateProgress: builder.mutation({
-      query: (data ) => ({
+      query: (data) => ({
         url: "/update",
         method: "POST",
-        body:data,
-        }),
-         invalidatesTags:["Progress"],
-    }),
-      deleteProgress: builder.mutation({
-       query: (id) => ({
-              url:`/delete/${id}`,
-           method:"DELETE"
-          }),
-          invalidatesTags:["Progress"],
+        body: data,
       }),
-      updatelevel: builder.mutation({
-          query: (level) => ({
-              url: "/update-level",
-              method: "POST",
-              body:{level}
-          }),
-           invalidatesTags:["Progress"],
-      })
+      invalidatesTags: ["Progress"],
     }),
-  
+    deleteProgress: builder.mutation({
+      query: (id) => ({
+        url: `/delete/${id}`,
+        method: "DELETE"
+      }),
+      invalidatesTags: ["Progress"],
+    }),
+    updatelevel: builder.mutation({
+      query: (level) => ({
+        url: "/update-level",
+        method: "POST",
+        body: { level }
+      }),
+      invalidatesTags: ["Progress", "Profile"],
+    })
+  }),
+
 });
 
-export const { useGetProgressQuery, useUpdateProgressMutation,useDeleteProgressMutation,useUpdatelevelMutation } = progressApi;
+export const { useGetProfileQuery, useGetProgressQuery, useUpdateProgressMutation, useDeleteProgressMutation, useUpdatelevelMutation } = progressApi;
 export default progressApi;

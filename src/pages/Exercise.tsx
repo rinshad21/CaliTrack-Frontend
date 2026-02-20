@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
 import { useFetchAllWorkoutsQuery } from "@/redux/workouts";
+import { useGetProfileQuery } from "@/redux/progressSlice";
 import { ChevronRight, Zap, TrendingUp } from "lucide-react";
 import Loading from "@/components/Loading";
 import Stopwatch from "@/components/Stopwatch";
 import PleaseLogin from "@/components/ui/ValidationCard";
+
 interface workouts {
   _id: string;
   day: {
@@ -16,25 +18,46 @@ interface workouts {
 }
 
 const Exercise = () => {
-  const [level, setLevel] = useState(() => {
-    const userStr = localStorage.getItem("user");
-    const user = userStr ? JSON.parse(userStr) : {};
-    return user.level || "beginner";
-  });
+  // Login stores level as a plain string under "level" key; also check "user".level as fallback
+  const localLevel =
+    localStorage.getItem("level") ||
+    (() => {
+      try {
+        const userStr = localStorage.getItem("user");
+        return JSON.parse(userStr || "{}").level || "beginner";
+      } catch {
+        return "beginner";
+      }
+    })();
+
+  const isLoggedIn = !!localStorage.getItem("token");
+
+
+  const { data: profile } = useGetProfileQuery(undefined, { skip: !isLoggedIn });
+
+  const [level, setLevel] = useState(localLevel);
+
+
+  useEffect(() => {
+    if (profile?.level) {
+      setLevel(profile.level);
+      // Keep both keys in sync so any consumer reading either gets the fresh value
+      localStorage.setItem("level", profile.level);
+      try {
+        const prev = JSON.parse(localStorage.getItem("user") || "{}");
+        localStorage.setItem("user", JSON.stringify({ ...prev, level: profile.level }));
+      } catch {
+        localStorage.setItem("user", JSON.stringify({ level: profile.level }));
+      }
+    }
+  }, [profile?.level]);
+
   const { data: workouts = [], isLoading, error } = useFetchAllWorkoutsQuery();
   const [day, setDay] = useState<number>(() => {
     const saved = localStorage.getItem("currentDay");
     return saved ? Number(saved) : 1;
   });
-  useEffect(() => {
-    const handler = () => {
-      const userStr = localStorage.getItem("user");
-      const user = userStr ? JSON.parse("user") : {};
-      return user.level || "beginner";
-    };
-    window.addEventListener("storage", handler);
-    return () => window.removeEventListener("storage", handler);
-  }, []);
+
   const transformedWorkouts = workouts.map((w: any) => ({
     _id: w._id,
     day: w.day.day,
@@ -59,7 +82,7 @@ const Exercise = () => {
     );
   if (error)
     return (
-      <PleaseLogin/>
+      <PleaseLogin />
     );
 
   return (
@@ -77,11 +100,10 @@ const Exercise = () => {
             <button
               key={i}
               onClick={() => setDay(i + 1)}
-              className={`aspect-square rounded-lg flex items-center justify-center font-bold text-sm ${
-                i + 1 === day
-                  ? "bg-linear-to-br from-amber-400 to-orange-500 text-slate-900"
-                  : "bg-slate-700 text-slate-400"
-              }`}
+              className={`aspect-square rounded-lg flex items-center justify-center font-bold text-sm ${i + 1 === day
+                ? "bg-linear-to-br from-amber-400 to-orange-500 text-slate-900"
+                : "bg-slate-700 text-slate-400"
+                }`}
             >
               {i + 1}
             </button>
